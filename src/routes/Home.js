@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 // firebase 값 추가 참조사이트
 import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import Post from "../components/Post";
 
-
-const Home = ()=> {
+const Home = ({userObj})=> {
   const [post,setPost] = useState('');
   const [posts,setPosts] = useState([]);
+  
 
   const onChange = (e)=>{
     // const value = e.target.value; //ECMA script 2012인가... 무튼 ES6이전 문법임
@@ -34,7 +35,8 @@ const Home = ()=> {
       //await setDoc(doc(firebase.js에서 추출한, "컬렉션이름","문서이름"),넣을 데이터);
       const docRef = await addDoc(collection(db, "posts"), {
         content: post,
-        date: serverTimestamp() //오늘 날짜 시분초 - firebase지원 firebase최고!
+        date: serverTimestamp(), //오늘 날짜 시분초 - firebase지원 firebase최고!
+        uid: userObj
       });
       console.log("Document written with ID: ", docRef.id);
     } catch(error){
@@ -76,7 +78,7 @@ const Home = ()=> {
       </form>
       <ul>
         {
-          posts.map(item=><li key={item.id}>{item.content}</li>)
+          posts.map(item=><Post key={item.id} postObj={item}/>)
         }
       </ul>
     </div>

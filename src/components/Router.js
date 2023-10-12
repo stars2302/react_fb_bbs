@@ -7,14 +7,14 @@ import Nav from "./Nav";
 
 
 
-const AppRouter = ({isLoggedIn})=>{
+const AppRouter = ({isLoggedIn,userObj})=>{
   return(
     <>
     {isLoggedIn && <Nav/>}
     <Routes>
       {isLoggedIn ? (
       <>
-        <Route path="/" element={<Home/>}></Route>
+        <Route path="/" element={<Home userObj={userObj}/>}></Route>
         <Route path="/profile" element={<Profile/>}></Route>
       </>
         ):(

@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
   const [init,setInit] = useState(false);
+  const [userObj,setUserObj] = useState(null);
 
   useEffect(()=>{
     const auth = getAuth();
@@ -16,6 +17,7 @@ function App() {
         if (user) {
           setIsLoggedIn(true);
           console.log(user); //로그인한 유저 정보
+          setUserObj(user.uid);
         } else {
           setIsLoggedIn(false);
         }
@@ -27,7 +29,7 @@ function App() {
   return (
     <>
       {init ? 
-        <AppRouter isLoggedIn={isLoggedIn}/>
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/>
         : "회원정보 확인중..."
       }
     </>
