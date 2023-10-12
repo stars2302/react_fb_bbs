@@ -18,14 +18,27 @@ const Home = ()=> {
   //await은 async(비동기)방식이라 async를 앞에 붙여야 됨 
   const onSubmit = async (e)=>{
     e.preventDefault();
+    
+    /*
+    //에러확인하기!
+    try{
+      할일
+    } catch(e){
+      에러
+    }
+    */
 
-    //await setDoc(doc(db, "cities", "new-city-id"), data);
-    //await setDoc(doc(firebase.js에서 추출한, "컬렉션이름","문서이름"),넣을 데이터);
-    const docRef = await addDoc(collection(db, "posts"), {
-      content: post,
-      date: serverTimestamp() //오늘 날짜 시분초 - firebase지원 firebase최고!
-    });
-    console.log("Document written with ID: ", docRef.id);
+    try{
+      //await setDoc(doc(db, "cities", "new-city-id"), data);
+      //await setDoc(doc(firebase.js에서 추출한, "컬렉션이름","문서이름"),넣을 데이터);
+      const docRef = await addDoc(collection(db, "posts"), {
+        content: post,
+        date: serverTimestamp() //오늘 날짜 시분초 - firebase지원 firebase최고!
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch(error){
+      console.log(error);
+    }
   }
   
   return(
