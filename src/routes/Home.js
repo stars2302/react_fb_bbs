@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
 // firebase 값 추가 참조사이트
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 
 const Home = ()=> {
   const [post,setPost] = useState('');
+  const [posts,setPosts] = useState([]);
 
   const onChange = (e)=>{
     // const value = e.target.value; //ECMA script 2012인가... 무튼 ES6이전 문법임
@@ -18,7 +19,7 @@ const Home = ()=> {
   //await은 async(비동기)방식이라 async를 앞에 붙여야 됨 
   const onSubmit = async (e)=>{
     e.preventDefault();
-    
+
     /*
     //에러확인하기!
     try{
@@ -40,6 +41,32 @@ const Home = ()=> {
       console.log(error);
     }
   }
+
+  const getPosts = async ()=>{
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      const postObj = {
+        ...doc.data(),
+        id: doc.id
+      }
+      setPosts((prev)=>[postObj, ...prev]);
+    }); 
+  }
+
+  console.log(posts);
+  /*
+  //전개 연산자를 활용해서 value 커스텀
+  const test = {title:'title1', content: 'content1'};
+  const testCopy = {...test,title:'title2'};
+  console.log(testCopy);
+  console.log(test);
+  */
+
+  useEffect(()=>{
+    getPosts();
+  },[]);
   
   return(
     <div>
@@ -47,6 +74,11 @@ const Home = ()=> {
         <input type="text" name="" placeholder="포스트 쓰기" onChange={onChange} value={post}/>
         <button>입력</button>
       </form>
+      <ul>
+        {
+          posts.map(item=><li key={item.id}>{item.content}</li>)
+        }
+      </ul>
     </div>
   )
 } //comp Home
