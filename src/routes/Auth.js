@@ -50,7 +50,7 @@ const Auth = ()=> {
 
     }
   }
-
+  
   const onChange = (e)=>{
     const {target:{name,value}} = e;
 
@@ -60,15 +60,17 @@ const Auth = ()=> {
       setPassword(value);
     }
 
-
     if(e.target.name === 'email'){
       setEmail(e.target.value);
     }
   }
 
+  //로그인/회원가입 전환
   const toggleAccount = ()=>setNewAccount((prev)=>!prev);
 
   const onSocialClick = ()=>{
+    //구글 로그인/회원가입
+    //https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
     .then((result) => {
