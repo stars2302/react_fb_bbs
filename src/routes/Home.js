@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 //https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
 // firebase 값 추가 참조사이트
-import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc, serverTimestamp, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 import Post from "../components/Post";
 
@@ -44,6 +44,7 @@ const Home = ({userObj})=> {
     }
   }
 
+  /*
   const getPosts = async ()=>{
     const querySnapshot = await getDocs(collection(db, "posts"));
     querySnapshot.forEach((doc) => {
@@ -56,6 +57,7 @@ const Home = ({userObj})=> {
       setPosts((prev)=>[postObj, ...prev]);
     }); 
   }
+  */
 
   console.log(posts);
   /*
@@ -67,8 +69,23 @@ const Home = ({userObj})=> {
   */
 
   useEffect(()=>{
-    getPosts();
+    const q = query(collection(db, "posts"), orderBy("date"));
+    onSnapshot(q, (querySnapshot) => {
+      /*
+      const posts = [];
+      querySnapshot.forEach((doc) => {
+        posts.push(doc.data().name);
+      });
+      */
+      
+      const postArr = querySnapshot.docs.map((doc)=>({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setPosts(postArr);
+    });
   },[]);
+  console.log(posts);
   
   return(
     <div>
