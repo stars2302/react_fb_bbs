@@ -6,15 +6,15 @@ import { db } from "../firebase";
 import Post from "../components/Post";
 import { getStorage, ref,uploadString ,getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 
 const Home = ({userObj})=> {
   const [post,setPost] = useState('');
   const [posts,setPosts] = useState([]);
   const [attachment,setAttachment] = useState(); //이미지 //기본값 undefined
-  const [attachmentUrl,setAttachmentUrl] = useState('');
-  const navigate = useNavigate();
+  // const [attachmentUrl,setAttachmentUrl] = useState('');
+  // const navigate = useNavigate();
   // const [inputFile, setInputFile] = useState();
   
 

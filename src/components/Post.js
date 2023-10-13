@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { db } from "../firebase";
 
 
@@ -13,7 +14,15 @@ const Post = ({postObj,userConfirm})=>{
   const deletePost = async ()=>{
     if(window.confirm('정말로 삭제하시겠습니까?')){
       await deleteDoc(doc(db,'posts',postObj.id));
+
+      //스토리지 이미지파일 삭제
+      const storage = getStorage();
+      const storageRef = ref(storage, postObj.attachmentUrl);
+      deleteObject(storageRef);
     } 
+
+
+
   }
   
   const [edit,setEdit] = useState(false); //수정모드인지 구분
