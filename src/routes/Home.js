@@ -6,11 +6,15 @@ import { db } from "../firebase";
 import Post from "../components/Post";
 import { getStorage, ref,uploadString ,getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
+
 
 const Home = ({userObj})=> {
   const [post,setPost] = useState('');
   const [posts,setPosts] = useState([]);
   const [attachment,setAttachment] = useState(); //이미지 //기본값 undefined
+  const [attachmentUrl,setAttachmentUrl] = useState('');
+  const navigate = useNavigate();
   // const [inputFile, setInputFile] = useState();
   
 
@@ -30,8 +34,9 @@ const Home = ({userObj})=> {
     const storageRef = ref(storage, `${userObj}/${uuidv4()}`);
 
     uploadString(storageRef, attachment, 'data_url').then(async (snapshot) => {
-      const attachmentUrl = await getDownloadURL(storageRef);
-
+      // setAttachmentUrl();
+      // console.log(attachment);
+      let attachmentUrl = await getDownloadURL(storageRef); 
       try{
         //await setDoc(doc(db, "cities", "new-city-id"), data);
         //await setDoc(doc(firebase.js에서 추출한, "컬렉션이름","문서이름"),넣을 데이터);
@@ -41,6 +46,8 @@ const Home = ({userObj})=> {
           uid: userObj,
           attachmentUrl
         });
+        attachmentUrl = '';
+        
       } catch(error){
         console.log(error);
       }

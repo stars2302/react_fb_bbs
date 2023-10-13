@@ -52,6 +52,7 @@ const Post = ({postObj,userConfirm})=>{
       ):(
         <>
         <h4>{postObj.content}</h4>
+        {postObj.attachmentUrl && <img src={postObj.attachmentUrl} alt="" width="200"/>}
         { userConfirm && (
           <>
           <button onClick={deletePost}>Delete</button>
