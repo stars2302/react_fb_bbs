@@ -13,6 +13,22 @@ firebase.js 생성 후 초기화 코드 복붙!
 index.js랑 연결
 
 
+
+
+**storage 생성 (파일 업로드)
+빌드 - storage - 생성하기 - asia확인 후 확인클릭
+
+- 참조만들기( 경로/파일명 만들기)
+
+
+
+
++ uuid 파일명 랜덤으로 만들어주는!
+npm install uuid
+import { v4 as uuidv4 } from 'uuid'
+
+
+
 ++ 데이터베이스 규칙 가장 마지막
 match /{document=**} {
       allow read, write: if true
@@ -46,3 +62,5 @@ nosql: 파일탐색기와 비슷. 그래서 범위를 좁혀가며 찾아서 속
 
 *** 회원정보
 Authentication 탭에서 확인!
+
+
