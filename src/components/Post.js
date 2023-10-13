@@ -1,5 +1,5 @@
-import React from "react";
-import { doc, deleteDoc } from "firebase/firestore";
+import React, { useState } from "react";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 
@@ -9,24 +9,58 @@ import { db } from "../firebase";
 
 
 const Post = ({postObj,userConfirm})=>{
-  console.log(postObj);
+  
   const deletePost = async ()=>{
     if(window.confirm('정말로 삭제하시겠습니까?')){
       await deleteDoc(doc(db,'posts',postObj.id));
     } 
   }
   
+  const [edit,setEdit] = useState(false); //수정모드인지 구분
+  const [newPost,setNewPost] = useState(postObj.content);
   
-  
+  const toggleEditMode = ()=>setEdit((prev)=>!prev);
+
+  const onchange = (e)=>{
+    const {target:{value}} = e;
+    setNewPost(value);
+  }
+
+  const onSubmit = async (e)=>{
+    e.preventDefault();
+    const postRef = doc(db, "posts", postObj.id);
+
+    await updateDoc(postRef, {
+      content: newPost
+    });
+
+    setEdit();
+  }
+
+
   return (
     <li>
-      <h4>{postObj.content}</h4>
-      { userConfirm && (
+      {edit ? 
+      (
         <>
-        <button onClick={deletePost}>Delete</button>
-        <button>Edit</button>
+        <form onSubmit={onSubmit}>
+          <input value={newPost} onChange={onchange} required/>
+          <button>업데이트</button>
+        </form>
+        <button onClick={toggleEditMode}>취소</button>
         </>
-      )}
+      ):(
+        <>
+        <h4>{postObj.content}</h4>
+        { userConfirm && (
+          <>
+          <button onClick={deletePost}>Delete</button>
+          <button onClick={toggleEditMode}>Edit</button>
+          </>
+        )}
+        </>
+      )
+      }
     </li>
   )
 }

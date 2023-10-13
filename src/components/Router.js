@@ -7,7 +7,7 @@ import Nav from "./Nav";
 
 
 
-const AppRouter = ({isLoggedIn,userObj})=>{
+const AppRouter = ({isLoggedIn,userObj,setUserObj})=>{
   return(
     <>
     {isLoggedIn && <Nav/>}
@@ -15,7 +15,7 @@ const AppRouter = ({isLoggedIn,userObj})=>{
       {isLoggedIn ? (
       <>
         <Route path="/" element={<Home userObj={userObj}/>}></Route>
-        <Route path="/profile" element={<Profile/>}></Route>
+        <Route path="/profile" element={<Profile setUserObj={setUserObj}/>}></Route>
       </>
         ):(
         <Route path="/" element={<Auth/>}></Route>
