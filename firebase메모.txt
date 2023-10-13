@@ -1,0 +1,48 @@
+https://firebase.google.com/?hl=ko
+
+파이어베이스 : 서버세팅없이 리엑트 사용할 수 있는.........>?
+
+** database 생성
+빌드 - firestore database - 데이터베이스 만들기 - 물리서버위치(asia-northeast3(Seoul)) 설정
+
+컬렉션추가
+
+web버전으로 앱 등록! + react 앱 만들기
+npm install firebase 실행
+firebase.js 생성 후 초기화 코드 복붙!
+index.js랑 연결
+
+
+++ 데이터베이스 규칙 가장 마지막
+match /{document=**} {
+      allow read, write: if true
+   }
+누구나 작성할 수 있도록 수정!
+
+
+!! 보안성 높이기!!
+.env 환경파일 만들어서 firebase.js 내용 넣어두어 암호화.....?
+환경파일 변수명 출력 -> process.env.변수명
+.gitignore(업로드 무시할 파일명 추가하는 파일)에 .env 추가
+
++ mysql VS nosql
+mysql : 관계형데이터베이스. index번호를 사용
+nosql: 파일탐색기와 비슷. 그래서 범위를 좁혀가며 찾아서 속도 빠름. 이름 등을 사용
+
+----------------------------------------------------------------------------
+
+로그인 방법!
+
+*종류
+1. 이메일/비번
+2. 구글
+3. sns
+4. github
+
+
+**절차
+빌드 - Authentication - 시작하기 - 제공업체 추가해서 설정
+
+
+*** 회원정보
+Authentication 탭에서 확인!
