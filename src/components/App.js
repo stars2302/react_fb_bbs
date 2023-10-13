@@ -5,7 +5,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 function App() {
-  const [isLoggedIn,setIsLoggedIn] = useState(false);
   const [init,setInit] = useState(false);
   const [userObj,setUserObj] = useState(null);
 
@@ -15,21 +14,21 @@ function App() {
 
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          setIsLoggedIn(true);
-          console.log(user); //로그인한 유저 정보
           setUserObj(user.uid);
-        } else {
-          setIsLoggedIn(false);
         }
         setInit(true);
       });
     
   },[]);
 
+  console.log(userObj);
+
+
+  // Boolean(값) == isset? 비슷한듯. 값이 있으면 true, 없으면 false
   return (
     <>
       {init ? 
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/>
+        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} setUserObj={setUserObj}/>
         : "회원정보 확인중..."
       }
     </>

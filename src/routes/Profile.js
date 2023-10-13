@@ -4,14 +4,15 @@ import { getAuth, signOut } from "firebase/auth";
 
 
 
-const Profile = ()=> {
+const Profile = ({setUserObj})=> {
   const auth = getAuth();
   const navigate = useNavigate();
   
   const onLogoutClick = ()=> {
     // authService.signOut(); ;
     signOut(auth).then(() => {
-      navigate('/')
+      setUserObj(null);
+      navigate('/');
     }).catch((error) => {
       console.log(error);
     });
